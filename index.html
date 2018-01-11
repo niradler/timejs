@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TimeJS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" />
+</head>
+
+<body>
+    <div>
+        <h2>Clock</h2>
+        <div id="clock" class="rap">
+            <div id="hours" class="animated">00</div>:
+            <div id="minutes" class="animated">00</div>:
+            <div id="seconds" class="animated">00</div>
+        </div>
+    </div>
+    <div>
+        <h2>Stopwatch</h2>
+        <div>
+            <button id="s-start">Start</button>
+            <button id="s-stop">Stop</button>
+        </div>
+        <div id="stopwatch" class="rap">
+            <div id="hours" class="animated">00</div>:
+            <div id="minutes" class="animated">00</div>:
+            <div id="seconds" class="animated">00</div>
+        </div>
+    </div>
+    <style>
+        .rap {
+            justify-content: center;
+            line-height: 2;
+            display: flex;
+            background-color: black;
+            color: white;
+            width: 80px;
+            height: 30px;
+            align-items: center;
+        }
+    </style>
+    <script src="/dist/Time.js"></script>
+    <script>
+        function getUpdateElsFunc(ho_el, min_el, sec_el) {
+            return function (t) {
+
+                if (seconds != t.seconds) {
+                    seconds = t.seconds;
+                    sec_el.innerHTML = seconds;
+                    sec_el.classList.toggle('flipInY')
+                    setTimeout(() => {
+                        sec_el.classList.toggle('flipInY')
+                    }, 500);
+                }
+                if (hours != t.hours) {
+                    hours = t.hours;
+                    ho_el.innerHTML = hours;
+                    ho_el.classList.toggle('flipInY')
+                }
+                if (minutes != t.minutes) {
+                    minutes = t.minutes;
+                    min_el.innerHTML = minutes;
+                    min_el.classList.toggle('flipInY')
+                }
+            }
+        }
+
+        function clock() {
+            var clock = new Time(new Date());
+            var seconds = 0,
+                minues = 0,
+                hours = 0;
+            var sec_el = document.querySelector('#clock > #seconds'),
+                min_el = document.querySelector('#clock > #minutes'),
+                ho_el = document.querySelector('#clock > #hours');
+
+            clock.start(getUpdateElsFunc(ho_el, min_el, sec_el))
+        }
+
+        function stopWatch() {
+
+            var stopWatch = new Time();
+            var sec_el = document.querySelector('#stopwatch > #seconds'),
+                min_el = document.querySelector('#stopwatch > #minutes'),
+                ho_el = document.querySelector('#stopwatch > #hours'),
+               start_el=document.querySelector('#s-start'),
+                stop_el=document.querySelector('#s-stop');
+            
+            stop_el.addEventListener('click',function(){
+                stopWatch.stop();
+            })
+            start_el.addEventListener('click',function(){
+                stopWatch.reset();//remove to continue from the last stop
+                stopWatch.start(getUpdateElsFunc(ho_el, min_el, sec_el))
+            })
+        }
+        stopWatch();
+            clock();
+    </script>
+</body>
+
+</html>

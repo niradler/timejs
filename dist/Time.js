@@ -1,8 +1,4 @@
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
+"use strict";
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
@@ -17,7 +13,7 @@ var Time = function () {
         _classCallCheck(this, Time);
 
         this.type = type;
-        if ((typeof time === 'undefined' ? 'undefined' : _typeof(time)) == "object") {
+        if ((typeof time === "undefined" ? "undefined" : _typeof(time)) == "object") {
             this.seconds = type ? time.getSeconds() : time.seconds ? time.seconds : 0;
             this.minutes = type ? time.getMinutes() : time.minutes ? time.minutes : 0;
             this.hours = type ? time.getHours() : time.hours ? time.hours : 0;
@@ -31,12 +27,27 @@ var Time = function () {
     }
 
     _createClass(Time, [{
-        key: 'get',
+        key: "reset",
+        value: function reset(time) {
+            var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+            if ((typeof time === "undefined" ? "undefined" : _typeof(time)) == "object") {
+                this.seconds = type ? time.getSeconds() : time.seconds ? time.seconds : 0;
+                this.minutes = type ? time.getMinutes() : time.minutes ? time.minutes : 0;
+                this.hours = type ? time.getHours() : time.hours ? time.hours : 0;
+            } else {
+                this.seconds = 0;
+                this.minutes = 0;
+                this.hours = 0;
+            }
+        }
+    }, {
+        key: "get",
         value: function get() {
             return { hours: this.hours, minutes: this.minutes, seconds: this.seconds };
         }
     }, {
-        key: 'start',
+        key: "start",
         value: function start(fn) {
             var _this = this;
 
@@ -75,7 +86,7 @@ var Time = function () {
             this.interval = setInterval(this.type ? d : a, 1000);
         }
     }, {
-        key: 'stop',
+        key: "stop",
         value: function stop() {
             if (this.interval != null) {
                 clearInterval(this.interval);
@@ -88,4 +99,8 @@ var Time = function () {
     return Time;
 }();
 
-exports.default = Time;
+if (typeof exports === 'undefined') {
+    window.Time = Time;
+} else {
+    module.exports = Time;
+}

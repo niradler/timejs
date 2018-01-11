@@ -13,6 +13,17 @@ class Time {
         
         this.interval = null;
     }
+    reset(time,type=true){
+        if (typeof(time)=="object") {
+            this.seconds = type?time.getSeconds():time.seconds?time.seconds:0;
+            this.minutes = type?time.getMinutes():time.minutes?time.minutes:0;
+            this.hours = type?time.getHours():time.hours?time.hours:0;
+        }else{
+            this.seconds = 0;
+            this.minutes = 0;
+            this.hours = 0;
+        }
+    }
     get(){
         return {hours: this.hours, minutes: this.minutes, seconds: this.seconds}
     }
@@ -59,4 +70,11 @@ class Time {
         return false;
     }
 }
-export default Time;
+
+if (typeof exports === 'undefined') {
+    window.Time=Time;
+} else {
+    module.exports= Time;
+}
+     
+
