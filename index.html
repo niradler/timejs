@@ -30,7 +30,25 @@
             <div id="seconds" class="animated">00</div>
         </div>
     </div>
+    <div>
+        <h2>Timer</h2>
+        <div>
+            <input type="time" id="time" step="1" required>
+            <button id="t-start">Start</button>
+        </div>
+        <div id="timer" class="rap">
+            <div id="hours" class="animated">00</div>:
+            <div id="minutes" class="animated">00</div>:
+            <div id="seconds" class="animated">00</div>
+        </div>
+    </div>
     <style>
+        body {
+            width: 80%;
+            display: flex;
+            justify-content: space-between;
+        }
+
         .rap {
             justify-content: center;
             line-height: 2;
@@ -44,12 +62,17 @@
     </style>
     <script src="dist/Time.js"></script>
     <script>
-        function getUpdateElsFunc(ho_el, min_el, sec_el) {
-            return function (t) {
+        function padding(num) {
+            num = num.toString();
+            return num.length == 1 ? '0' + num : num;
+        }
 
+        function getUpdateElsFunc(ho_el, min_el, sec_el) {
+            var hours=0,minutes=0,seconds=0;
+            return function (t) {
                 if (seconds != t.seconds) {
                     seconds = t.seconds;
-                    sec_el.innerHTML = seconds;
+                    sec_el.innerHTML = padding(seconds);
                     sec_el.classList.toggle('flipInY')
                     setTimeout(() => {
                         sec_el.classList.toggle('flipInY')
@@ -57,22 +80,25 @@
                 }
                 if (hours != t.hours) {
                     hours = t.hours;
-                    ho_el.innerHTML = hours;
+                    ho_el.innerHTML = padding(hours);
                     ho_el.classList.toggle('flipInY')
+                    setTimeout(() => {
+                        sec_el.classList.toggle('flipInY')
+                    }, 500);
                 }
                 if (minutes != t.minutes) {
                     minutes = t.minutes;
-                    min_el.innerHTML = minutes;
+                    min_el.innerHTML = padding(minutes);
                     min_el.classList.toggle('flipInY')
+                    setTimeout(() => {
+                        sec_el.classList.toggle('flipInY')
+                    }, 500);
                 }
             }
         }
 
         function clock() {
             var clock = new Time(new Date());
-            var seconds = 0,
-                minues = 0,
-                hours = 0;
             var sec_el = document.querySelector('#clock > #seconds'),
                 min_el = document.querySelector('#clock > #minutes'),
                 ho_el = document.querySelector('#clock > #hours');
@@ -81,24 +107,46 @@
         }
 
         function stopWatch() {
-
             var stopWatch = new Time();
             var sec_el = document.querySelector('#stopwatch > #seconds'),
                 min_el = document.querySelector('#stopwatch > #minutes'),
                 ho_el = document.querySelector('#stopwatch > #hours'),
-               start_el=document.querySelector('#s-start'),
-                stop_el=document.querySelector('#s-stop');
-            
-            stop_el.addEventListener('click',function(){
+                start_el = document.querySelector('#s-start'),
+                stop_el = document.querySelector('#s-stop');
+
+            stop_el.addEventListener('click', function () {
                 stopWatch.stop();
             })
-            start_el.addEventListener('click',function(){
-                stopWatch.reset();//remove to continue from the last stop
+            start_el.addEventListener('click', function () {
+                stopWatch.reset(); //remove to continue from the last stop
                 stopWatch.start(getUpdateElsFunc(ho_el, min_el, sec_el))
             })
         }
+
+        function timer() {
+            var timer, time;
+            var sec_el = document.querySelector('#timer > #seconds'),
+                min_el = document.querySelector('#timer > #minutes'),
+                ho_el = document.querySelector('#timer > #hours'),
+                start_el = document.querySelector('#t-start');
+            start_el.addEventListener('click', function () {
+                time = document.querySelector('#time').value;
+                if (time === "") {
+                    alert('time is missing!')
+                    return;
+                }
+                time = time.split(':')
+                timer = new Time({
+                    hours: time[0],
+                    minutes: time[1],
+                    seconds: time[2]
+                }, false);
+                timer.start(getUpdateElsFunc(ho_el, min_el, sec_el))
+            })
+        }
+        timer();
         stopWatch();
-            clock();
+        clock();
     </script>
 </body>
 

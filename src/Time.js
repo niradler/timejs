@@ -43,6 +43,9 @@ class Time {
             }
         }
         const a=()=>{
+            if (typeof(fn) == 'function') {
+                fn({hours: this.hours, minutes: this.minutes, seconds: this.seconds})
+            }
             this.seconds--;
             if (this.seconds == -1) {
                 this.seconds = 59;
@@ -56,9 +59,7 @@ class Time {
                 clearInterval(this.interval);
                 return; 
             }
-            if (typeof(fn) == 'function') {
-                fn({hours: this.hours, minutes: this.minutes, seconds: this.seconds})
-            }
+            
         }
         this.interval = setInterval(this.type?d:a, 1000)
     }

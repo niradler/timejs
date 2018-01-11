@@ -66,6 +66,9 @@ var Time = function () {
                 }
             };
             var a = function a() {
+                if (typeof fn == 'function') {
+                    fn({ hours: _this.hours, minutes: _this.minutes, seconds: _this.seconds });
+                }
                 _this.seconds--;
                 if (_this.seconds == -1) {
                     _this.seconds = 59;
@@ -78,9 +81,6 @@ var Time = function () {
                 if (_this.hours == -1) {
                     clearInterval(_this.interval);
                     return;
-                }
-                if (typeof fn == 'function') {
-                    fn({ hours: _this.hours, minutes: _this.minutes, seconds: _this.seconds });
                 }
             };
             this.interval = setInterval(this.type ? d : a, 1000);
