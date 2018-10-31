@@ -1,6 +1,6 @@
 {
   "name": "@niradler55/timejs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Helper class to help manage time base function.",
   "main": "index.js",
   "scripts": {
