@@ -1,0 +1,23 @@
+{
+  "name": "@niradler55/timejs",
+  "version": "1.0.0",
+  "description": "Helper class to help manage time base function.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/niradler/timejs.git"
+  },
+  "keywords": [
+    "time",
+    "js"
+  ],
+  "author": "Nir Adler",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/niradler/timejs/issues"
+  },
+  "homepage": "https://github.com/niradler/timejs#readme"
+}
